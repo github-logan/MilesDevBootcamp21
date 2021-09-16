@@ -11,7 +11,7 @@ inventoryID INTEGER PRIMARY KEY,
   itemID INT,
   tavernID INT,
   current_count INT,
-  date_updated INT,
+  date_updated TEXT,
   FOREIGN KEY(tavernID) REFERENCES taverns(tavernID),
   FOREIGN KEY(itemID) REFERENCES items(itemID)
 );
@@ -38,7 +38,7 @@ CREATE TABLE rats (
 CREATE TABLE receivables (
   receivableID INTEGER PRIMARY KEY,
   orderID INT,
-date_received INT,
+date_received text,
 FOREIGN KEY(orderID) REFERENCES supplyOrders(orderID)
 );
 
@@ -55,7 +55,7 @@ tavernID INT,
   guestID int,
 quantity_sold int,
   price int,
-  date_purchased int, price INTEGER,
+  date_purchased int,
   FOREIGN KEY(tavernID) REFERENCES taverns(tavernID),
   FOREIGN KEY(serviceID) REFERENCES services(serviceID),
   FOREIGN KEY(guestID) REFERENCES guests(guestID)
@@ -89,7 +89,7 @@ CREATE TABLE supplyOrders (
   itemID INT,
   quantity_ordered INT,
     cost INT,
-  order_date INT,
+  order_date text,
   FOREIGN KEY(tavernID) REFERENCES taverns(tavernID),
   FOREIGN KEY(itemID) REFERENCES items(itemID)
 );
@@ -117,8 +117,8 @@ CREATE TABLE users (
 
 INSERT INTO sales(tavernID, serviceID, guestID, quantity_sold, price, date_purchased)
 VALUES
-(1, 1, 1, 10, 100, 02.21), (2, 1, 2, 5, 50, 03.21), (3, 3, 3, 10, 50, 02.21), (3, 2, 4, 50, 700, 08.21),
-(4, 5, 5, 1, 5, 09.21);
+(1, 1, 1, 10, 100, 2021-02-23), (2, 1, 2, 5, 50, 2021-03-15), (3, 3, 3, 10, 50, 2021-02-23), (3, 2, 4, 50, 700, 2021-08-13),
+(4, 5, 5, 1, 5, 2021-09-01);
 
 INSERT INTO guests(first_name, last_name, contact_info)
 VALUES
@@ -130,15 +130,15 @@ VALUES
 
 INSERT INTO supplyOrders(tavernID, itemID, quantity_ordered, cost, order_date)
 VALUES
-(1, 1, 10, 35, 05.21),
-(2, 1, 20, 70, 03.20),
-(2, 4, 50, 1000, 04.21),
-(3, 4, 10, 200, 05.21),
-(5, 6, 5, 25, 03.20);
+(1, 1, 10, 35, 2021-02-23),
+(2, 1, 20, 70, 2021-03-15),
+(2, 4, 50, 1000, 2021-02-23),
+(3, 4, 10, 200, 2021-03-15),
+(5, 6, 5, 25, 2021-06-01);
 
 INSERT into receivables(orderID, date_received)
 VALUES
-(1, 06.21), (2, 04.20), (3, 05.21), (4, 06.21), (5, 5.20);
+(1, 2021-09-01), (2, 2021-09-01), (3, 2021-04-23), (4, 2021-04-23), (5, 2021-08-13);
 
 INSERT INTO services(service_name, service_dx)
 VALUES ('drinks', 'the providing of beverages'),
