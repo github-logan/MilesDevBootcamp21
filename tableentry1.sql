@@ -76,7 +76,7 @@ CREATE TABLE services (
   service_dx varchar(250)
 );
 
-CREATE TABLE "supplies" (
+CREATE TABLE supplies (
   itemID INTEGER PRIMARY KEY,
   name varchar(100),
   price_per_unit INT,
@@ -117,8 +117,8 @@ CREATE TABLE users (
 
 INSERT INTO sales(tavernID, serviceID, guestID, quantity_sold, price, date_purchased)
 VALUES
-(1, 1, 1, 10, 100, 2021-02-23), (2, 1, 2, 5, 50, 2021-03-15), (3, 3, 3, 10, 50, 2021-02-23), (3, 2, 4, 50, 700, 2021-08-13),
-(4, 5, 5, 1, 5, 2021-09-01);
+(1, 1, 1, 10, 100, "2021-02-23"), (2, 1, 2, 5, 50, "2021-03-15"), (3, 3, 3, 10, 50, "2021-02-23"), (3, 2, 4, 50, 700, "2021-08-13"),
+(4, 5, 5, 1, 5, "2021-09-01");
 
 INSERT INTO guests(first_name, last_name, contact_info)
 VALUES
@@ -130,15 +130,15 @@ VALUES
 
 INSERT INTO supplyOrders(tavernID, itemID, quantity_ordered, cost, order_date)
 VALUES
-(1, 1, 10, 35, 2021-02-23),
-(2, 1, 20, 70, 2021-03-15),
-(2, 4, 50, 1000, 2021-02-23),
-(3, 4, 10, 200, 2021-03-15),
-(5, 6, 5, 25, 2021-06-01);
+(1, 1, 10, 35, "2021-02-23"),
+(2, 1, 20, 70, "2021-03-15"),
+(2, 4, 50, 1000, "2021-02-23"),
+(3, 4, 10, 200, "2021-03-15"),
+(5, 6, 5, 25, "2021-06-01");
 
 INSERT into receivables(orderID, date_received)
 VALUES
-(1, 2021-09-01), (2, 2021-09-01), (3, 2021-04-23), (4, 2021-04-23), (5, 2021-08-13);
+(1, "2021-09-01"), (2, "2021-09-01"), (3, "2021-04-23"), (4, "2021-04-23"), (5, "2021-08-13");
 
 INSERT INTO services(service_name, service_dx)
 VALUES ('drinks', 'the providing of beverages'),
