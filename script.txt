@@ -1,19 +1,47 @@
+CREATE TABLE classes (
+  classID INTEGER PRIMARY KEY,
+class_name varchar(100),
+  class_dx varchar(200),
+  numberOfLevels INT,
+);
+
+
+CREATE TABLE guestLevels (
+  rowID INTEGER PRIMARY KEY,
+  guestID INT,
+  classID INT,
+  current_level INT,
+  FOREIGN KEY(guestID) REFERENCES guests(guestID),
+  FOREIGN KEY(classID) REFERENCES classes(classID)
+);
+
+
+CREATE TABLE guestsStatuses (
+  guest_statusID INTEGER PRIMARY KEY,
+guestStatus_name varchar(100),
+  guestStatus_dx varchar(200),
+);
+
 
 CREATE TABLE guests (
   guestID INTEGER PRIMARY KEY,
 first_name varchar(100),
   last_name varchar(100),
-  contact_info varchar(200)
+  notes varchar(200),
+  birthday TEXT,
+  cakeday TEXT,
+  guest_statusID INT,
+  FOREIGN KEY(guest_statusID) REFERENCES guestStatuses(guest_statusID),
 );
 
 CREATE TABLE inventories (
 inventoryID INTEGER PRIMARY KEY,
-  itemID INT,
+  supplyID INT,
   tavernID INT,
   current_count INT,
   date_updated TEXT,
   FOREIGN KEY(tavernID) REFERENCES taverns(tavernID),
-  FOREIGN KEY(itemID) REFERENCES items(itemID)
+  FOREIGN KEY(supplyID) REFERENCES supplies(supplyID)
 );
 
 CREATE TABLE locations (
@@ -55,19 +83,26 @@ tavernID INT,
   guestID int,
 quantity_sold int,
   price int,
-  date_purchased int,
+  date_purchased TEXT,
   FOREIGN KEY(tavernID) REFERENCES taverns(tavernID),
   FOREIGN KEY(serviceID) REFERENCES services(serviceID),
   FOREIGN KEY(guestID) REFERENCES guests(guestID)
 );
 
 CREATE TABLE serviceAvailabilities (
-  statusID INTEGER PRIMARY KEY,
+  availabilityID INTEGER PRIMARY KEY,
   serviceID INT,
     tavernID INT,
-  current_status varchar(150),
+  serviceStatusID INT,
   FOREIGN KEY(tavernID) REFERENCES taverns(tavernID),
-  FOREIGN KEY(serviceID) REFERENCES services(serviceID)
+  FOREIGN KEY(serviceID) REFERENCES services(serviceID),
+  FOREIGN KEY(serviceStatusID) REFERENCES serviceStatus(serviceStatusID)
+);
+
+CREATE TABLE serviceStatuses (
+  serviceStatusID INTEGER PRIMARY KEY,
+  statusName varchar(100),
+  status_dx varchar(200)
 );
 
 CREATE TABLE services (
@@ -77,7 +112,7 @@ CREATE TABLE services (
 );
 
 CREATE TABLE supplies (
-  itemID INTEGER PRIMARY KEY,
+  supplyID INTEGER PRIMARY KEY,
   name varchar(100),
   price_per_unit INT,
   unit TEXT
@@ -86,12 +121,12 @@ CREATE TABLE supplies (
 CREATE TABLE supplyOrders (
   orderID INTEGER PRIMARY KEY,
       tavernID INT,
-  itemID INT,
+  supplyID INT,
   quantity_ordered INT,
     cost INT,
   order_date text,
   FOREIGN KEY(tavernID) REFERENCES taverns(tavernID),
-  FOREIGN KEY(itemID) REFERENCES items(itemID)
+  FOREIGN KEY(supplyID) REFERENCES supplies(supplyID)
 );
 
 CREATE TABLE taverns (
@@ -116,17 +151,31 @@ CREATE TABLE users (
 --table data entries --
 
 
+INSERT into classes(class_name, class_dx, numberOfLevels)
+VALUES ('magician', 'guesses your card', 10), ('clown', 'juggles objects', 5),
+('archer', 'mobilizes very large darts', 17), ('henchman', 'does dirty work', 30),
+('philosopher', 'says simple things longwindedly', 3);
 
-INSERT INTO guests(first_name, last_name, contact_info)
+
+INSERT INTO guests(first_name, last_name, notes, birthday, cakeday, guest_statusID)
 VALUES
-('john', 'smith', 'none'),
-('mark', 'brown', '555-555-5525'),
-('joe', 'black', 'jblack@yahoo.com'),
-('chris', 'cooper', 'none'),
-('rachel', 'leigh', '555-555-7552');
+('john', 'smith', 'none', '1800-02-15', '1995-02-28', 1),
+('mark', 'brown', 'sings too loud', '1850-02-15', '1987-02-28', 2),
+('joe', 'black', 'keep away from fire', '1800-02-15', '1995-02-28', 2),
+('chris', 'cooper', 'none', '1850-02-15', '1987-02-28', 4),
+('rachel', 'leigh', 'tips well', '1906-02-15', '2012-02-28', 5);
 
 
-INSERT INTO inventories(itemID, tavernID, current_count, date_updated)
+INSERT INTO guestLevels(guestID, classID, current_level)
+VALUES (1, 2, 1), (1, 1, 4), (2, 1, 2), (3, 4, 5), (4, 1, 1);
+
+INSERT INTO guestStatuses(guestStatus_name, guestStatus_dx)
+VALUES
+('sick', 'will need a bucket soon'), ('fine', 'could use another drink though'),
+('hangry', 'hurry up with the food'), ('raging', 'keep sharp objects away'), ('placid', 'could use some free popcorn');
+
+
+INSERT INTO inventories(supplyID, tavernID, current_count, date_updated)
 VALUES (1, 1, 5, "2021-02-15"), (1, 2, 6, "2021-03-15"), (2, 2, 5, "2021-04-08"), (3, 4, 30, "2021-02-15"), (5, 5, 92, "2021-06-04");
 
 
@@ -175,9 +224,14 @@ VALUES ('drinks', 'the providing of beverages'),
 ('game', 'cards and such for playing');
 
 
-INSERT INTO serviceAvailabilities(serviceID, tavernID, current_status)
-VALUES (1, 1, 'available'), (2, 1, 'limited'), (3, 2, 'none'),
-(4, 3, 'limited'), (5, 2, 'cards only');
+INSERT INTO serviceAvailabilities(serviceID, tavernID, serviceStatusID)
+VALUES (1, 1, 1), (2, 1, 2), (3, 2, 3),
+(4, 3, 4), (5, 2, 5);
+
+INSERT INTO serviceStatuses(statusName, status_dx)
+VALUES ('available', 'get it while it is hot'), ('running low', 'hurry before it is gone'),
+('limited', 'now you see it, now you do not'), ('out of stock', 'try again later'),
+('discontinued', 'no longer offered');
 
 
 INSERT INTO supplies(name, unit, price_per_unit)
@@ -189,7 +243,7 @@ VALUES ('beer', 'stein', 3.50),
 ('cake', 'slice', 5);
 
 
-INSERT INTO supplyOrders(tavernID, itemID, quantity_ordered, cost, order_date)
+INSERT INTO supplyOrders(tavernID, supplyID, quantity_ordered, cost, order_date)
 VALUES
 (1, 1, 10, 35, "2021-02-23"),
 (2, 1, 20, 70, "2021-03-15"),
