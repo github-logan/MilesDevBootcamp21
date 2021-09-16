@@ -115,10 +115,7 @@ CREATE TABLE users (
 
 --table data entries --
 
-INSERT INTO sales(tavernID, serviceID, guestID, quantity_sold, price, date_purchased)
-VALUES
-(1, 1, 1, 10, 100, "2021-02-23"), (2, 1, 2, 5, 50, "2021-03-15"), (3, 3, 3, 10, 50, "2021-02-23"), (3, 2, 4, 50, 700, "2021-08-13"),
-(4, 5, 5, 1, 5, "2021-09-01");
+
 
 INSERT INTO guests(first_name, last_name, contact_info)
 VALUES
@@ -128,17 +125,47 @@ VALUES
 ('chris', 'cooper', 'none'),
 ('rachel', 'leigh', '555-555-7552');
 
-INSERT INTO supplyOrders(tavernID, itemID, quantity_ordered, cost, order_date)
-VALUES
-(1, 1, 10, 35, "2021-02-23"),
-(2, 1, 20, 70, "2021-03-15"),
-(2, 4, 50, 1000, "2021-02-23"),
-(3, 4, 10, 200, "2021-03-15"),
-(5, 6, 5, 25, "2021-06-01");
+
+INSERT INTO inventories(itemID, tavernID, current_count, date_updated)
+VALUES (1, 1, 5, "2021-02-15"), (1, 2, 6, "2021-03-15"), (2, 2, 5, "2021-04-08"), (3, 4, 30, "2021-02-15"), (5, 5, 92, "2021-06-04");
+
+
+INSERT into locations(address)
+VALUES ('123 Smith St'), ('45 Brown Rd'), ('6b Cove Ln'), ('89 Birch Way'), ('32 Fjords Dr');
+
+INSERT INTO owners(name, tavernID)
+VALUES ('Hank', 1),
+('John', 2),
+('Kaley', 3),
+('Rose', 4),
+('Tyler', 5);
+
+
+INSERT into rats(name, tavernID)
+VALUES ('Snippy', 1),
+('Snappy', 2), ('Snoppy', 3), ('Snuppy', 4),
+('Cliff', 4), ('Stubert', 2);
+
 
 INSERT into receivables(orderID, date_received)
 VALUES
 (1, "2021-09-01"), (2, "2021-09-01"), (3, "2021-04-23"), (4, "2021-04-23"), (5, "2021-08-13");
+
+
+INSERT INTO roles(name, role_description)
+VALUES ('owner', 'runs the joint'),
+('sweeper', 'sweeps up'),
+('barkeeper', 'pours drinks'),
+('helper', 'does odds and ends'),
+('assistant helper', 'does dirty jobs'),
+('bouncer', 'gets rid of people');
+
+
+INSERT INTO sales(tavernID, serviceID, guestID, quantity_sold, price, date_purchased)
+VALUES
+(1, 1, 1, 10, 100, "2021-02-23"), (2, 1, 2, 5, 50, "2021-03-15"), (3, 3, 3, 10, 50, "2021-02-23"), (3, 2, 4, 50, 700, "2021-08-13"),
+(4, 5, 5, 1, 5, "2021-09-01");
+
 
 INSERT INTO services(service_name, service_dx)
 VALUES ('drinks', 'the providing of beverages'),
@@ -146,6 +173,7 @@ VALUES ('drinks', 'the providing of beverages'),
 ('room', 'a bed to sleep on'),
 ('dessert', 'eatables of minimal nutritional value'),
 ('game', 'cards and such for playing');
+
 
 INSERT INTO serviceAvailabilities(serviceID, tavernID, current_status)
 VALUES (1, 1, 'available'), (2, 1, 'limited'), (3, 2, 'none'),
@@ -160,14 +188,19 @@ VALUES ('beer', 'stein', 3.50),
 ('stew', 'bowl', 15),
 ('cake', 'slice', 5);
 
-INSERT into locations(address)
-VALUES ('123 Smith St'), ('45 Brown Rd'), ('6b Cove Ln'), ('89 Birch Way'), ('32 Fjords Dr');
+
+INSERT INTO supplyOrders(tavernID, itemID, quantity_ordered, cost, order_date)
+VALUES
+(1, 1, 10, 35, "2021-02-23"),
+(2, 1, 20, 70, "2021-03-15"),
+(2, 4, 50, 1000, "2021-02-23"),
+(3, 4, 10, 200, "2021-03-15"),
+(5, 6, 5, 25, "2021-06-01");
 
 
-INSERT into rats(name, tavernID)
-VALUES ('Snippy', 1),
-('Snappy', 2), ('Snoppy', 3), ('Snuppy', 4),
-('Cliff', 4), ('Stubert', 2);
+INSERT INTO taverns(name, ownerID, locationID, numberOffloors)
+VALUES ('Mended Drum', 1, 1, 4), ('Repaired Bongos', 2, 2, 3), ('Restored Gong', 3, 3, 1), ('Improved Piano', 4, 4, 3),
+('Overturned Bucket', 5, 5, 1);
 
 
 INSERT into users(name, tavernID, roleID)
@@ -181,22 +214,3 @@ VALUES ('Hank', 1, 1),
 ('Kyle', 3, 4),
 ('Rosalyn', 4, 4),
 ('Timber', 5, 6);
-
-INSERT INTO roles(name, role_description)
-VALUES ('owner', 'runs the joint'),
-('sweeper', 'sweeps up'),
-('barkeeper', 'pours drinks'),
-('helper', 'does odds and ends'),
-('assistant helper', 'does dirty jobs'),
-('bouncer', 'gets rid of people');
-
-INSERT INTO owners(name, tavernID)
-VALUES ('Hank', 1),
-('John', 2),
-('Kaley', 3),
-('Rose', 4),
-('Tyler', 5);
-
-INSERT INTO taverns(name, ownerID, locationID, numberOffloors)
-VALUES ('Mended Drum', 1, 1, 4), ('Repaired Bongos', 2, 2, 3), ('Restored Gong', 3, 3, 1), ('Improved Piano', 4, 4, 3),
-('Overturned Bucket', 5, 5, 1);
