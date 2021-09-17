@@ -1,9 +1,4 @@
-CREATE TABLE classes (
-  classID INTEGER PRIMARY KEY,
-class_name varchar(100),
-  class_dx varchar(200),
-  numberOfLevels INT,
-);
+CREATE TABLE classes (classID INTEGER PRIMARY KEY, class_name varchar(100), class_dx varchar(200), numberOfLevels INT);
 
 
 CREATE TABLE guestLevels (
@@ -16,10 +11,10 @@ CREATE TABLE guestLevels (
 );
 
 
-CREATE TABLE guestsStatuses (
+CREATE TABLE guestStatuses (
   guest_statusID INTEGER PRIMARY KEY,
 guestStatus_name varchar(100),
-  guestStatus_dx varchar(200),
+  guestStatus_dx varchar(200)
 );
 
 
@@ -31,7 +26,7 @@ first_name varchar(100),
   birthday TEXT,
   cakeday TEXT,
   guest_statusID INT,
-  FOREIGN KEY(guest_statusID) REFERENCES guestStatuses(guest_statusID),
+  FOREIGN KEY(guest_statusID) REFERENCES guestStatuses(guest_statusID)
 );
 
 CREATE TABLE inventories (
