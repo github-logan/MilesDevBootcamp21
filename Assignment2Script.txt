@@ -44,19 +44,12 @@ guestStatus_name varchar(100),
 
 CREATE TABLE inventoryItems (
   itemID INTEGER PRIMARY KEY,
-  inventoryTypeID INT,
+  supplyTypeID INT,
   item_name varchar(100),
   item_dx varchar(200),
   item_unit varchar(100),
   cost_per_unit FLOAT,
-  FOREIGN KEY (inventoryTypeID) REFERENCES inventoryTypes(inventoryTypeID)
-);
-
-
-CREATE TABLE inventoryTypes (
-  inventoryTypeID INTEGER PRIMARY KEY,
-  type_Name varchar(100),
-  type_dx varchar(200)
+  FOREIGN KEY (supplyTypeID) REFERENCES supplyTypes(supplyTypeID)
 );
 
 
@@ -128,12 +121,12 @@ CREATE TABLE sales (
 
 CREATE TABLE services (
   serviceID INTEGER PRIMARY KEY,
-  serviceTypeID INT,
+  supplyTypeID INT,
   service_name varchar(100),
   service_dx varchar(200),
   service_unit varchar(100),
   price_per_unit FLOAT,
-  FOREIGN KEY (serviceTypeID) REFERENCES serviceTypes(serviceTypeID)
+  FOREIGN KEY (supplyTypeID) REFERENCES supplyTypes(supplyTypeID)
 );
 
 
@@ -150,10 +143,11 @@ CREATE TABLE serviceStatuses (
 );
 
 
-CREATE TABLE serviceTypes (
-  serviceTypeID INTEGER PRIMARY KEY,
+CREATE TABLE supplyTypes (
+  supplyTypeID INTEGER PRIMARY KEY,
   type_Name varchar(100),
-  type_dx varchar(200)
+  type_dx varchar(200),
+  type_example varchar(150)
 );
 
 
@@ -218,25 +212,21 @@ VALUES
 ('hangry', 'hurry up with the food'), ('raging', 'keep sharp objects away'), ('placid', 'could use some free popcorn');
 
 
-INSERT INTO inventoryItems(inventoryTypeID, item_name, item_dx, item_unit, cost_per_unit)
+INSERT INTO inventoryItems(supplyTypeID, item_name, item_dx, item_unit, cost_per_unit)
 VALUES (1, 'mugs', 'for serving beverages', 'one case of 12',  10.00),
 (2, 'napkins', 'to prevent sticky fingers', 'one box of 100', 5.75),
 (3, 'mop', 'for cleaning up messes', 'one mop', 5.00),
  (4, 'paper towels', 'for cleaning ugly messes', 'one roll', .50),
- (5, 'chair', 'for sitting in and throwing', 'one chair', 20.75)
+ (5, 'chair', 'for sitting in and throwing', 'one chair', 20.75),
  (6, 'good beer', 'for good customers', 'one gallon', 4.50),
- (6, 'bad beer', 'for bad tippers', 'one keg', 1.75);
+ (6, 'bad beer', 'for bad tippers', 'one keg', 1.75),
+ (8, 'fluorescent thread', 'for those who lack stealth', 'one spool', .50);
 
 
 INSERT INTO inventoryStatuses(itemID, tavernID, av_StatusID, currentStock, lastUpdated)
 VALUES (1, 1, 1, 20, '2021-09-15'), (2, 1, 3, 2, '2021-09-15'), (3, 3, 4, 0, '2021-08-05'),
-(4, 4, 3, 5, '2021-08-05'), (5, 1, 5, 50, '2021-03-15');
+(4, 4, 3, 5, '2021-08-05'), (5, 1, 5, 50, '2021-03-15'), (8, 5, 3, 2, '2021-04-08');
 
-
-INSERT INTO inventoryTypes(type_Name, type_dx)
-VALUES ('reusable service supply', 'things that should last awhile'), ('nonresuable service supply', 'drink umbrellas etc'),
-('reusable cleaning supply', 'things that should stick around'), ('nonresuable cleaning supply', 'soap and stuff'),
-('general service supply', 'furniture and whatnot'), ('consumable service supply', 'bulk food and beverages');
 
 INSERT into locations(address)
 VALUES ('123 Smith St'), ('45 Brown Rd'), ('6b Cove Ln'), ('89 Birch Way'), ('32 Fjords Dr');
@@ -244,7 +234,7 @@ VALUES ('123 Smith St'), ('45 Brown Rd'), ('6b Cove Ln'), ('89 Birch Way'), ('32
 
 INSERT INTO orders(tavernID, itemID, quantity, cost, order_date)
 VALUES (1, 2, 5, 28.75, '2021-07-17'), (3, 3, 3, 15.00, '2021-09-02'), (3, 5, 10, 207.50, '2021-08-15'),
-(4, 1, 2, 20.00, '2021-03-17'), (4, 3, 2, 10.00, '2021-09-02');
+(4, 1, 2, 20.00, '2021-03-17'), (4, 3, 2, 10.00, '2021-09-02'), (2, 8, 3, 1.50, '2021-06-15');
 
 INSERT INTO owners(name, tavernID)
 VALUES ('Hank', 1),
@@ -274,12 +264,12 @@ VALUES (1, 1, 32, 14.40, '2021-08-15', 1), (2, 2, 60, 18.00, '2021-08-15', 2),
 (4, 4, 1, 50.00, '2021-07-17', 5), (5, 2, 75, 22.50, '2021-08-15', 1);
 
 
-INSERT INTO services(serviceTypeID, service_name, service_dx, service_unit, price_per_unit)
-VALUES (1, 'good beer', 'fresh and foamy', 'ounce', .45),
-(1, 'bad beer', 'dishwater and gasoline', 'ounce', .30), (2, 'single room', 'for the discrete', 'one room per night', 175.00),
-(2, 'closet', 'for the thrifty traveler', 'one closet per night', 50.00), (3, 'storage trunk', 'for weapons and gold', 'one trunk per day', 25.00),
-(4, 'poker deck', 'bent and marked', 'one deck for two hours', 1.25),
-(5, 'cloak mending', 'hem stitching and hole sewing', 'one cloak', 45.00);
+INSERT INTO services(supplyTypeID, service_name, service_dx, service_unit, price_per_unit)
+VALUES (6, 'good beer', 'fresh and foamy', 'ounce', .45),
+(6, 'bad beer', 'dishwater and gasoline', 'ounce', .30), (7, 'single room', 'for the discrete', 'one room per night', 175.00),
+(7, 'closet', 'for the thrifty traveler', 'one closet per night', 50.00), (8, 'storage trunk', 'for weapons and gold', 'one trunk per day', 25.00),
+(7, 'poker deck', 'bent and marked', 'one deck for two hours', 1.25),
+(8, 'cloak mending', 'hem stitching and hole sewing', 'one cloak', 45.00);
 
 
 INSERT INTO serviceStatuses(serviceID, tavernID, av_StatusID, numberOfUnits, lastUpdated)
@@ -287,9 +277,13 @@ VALUES (1, 1, 1, 2500, '2021-09-13'), (2, 1, 5, 0, '2021-09-13'), (3, 1, 2, 3, '
 (4, 4, 6, 0, '2021-08-15'), (4, 5, 1, 5, '2021-04-28');
 
 
-INSERT INTO serviceTypes(type_Name, type_dx)
-VALUES ('consumables', 'food and beverages'), ('sleeping accommodations', 'single rooms shared spaces and closets'),
-('gear renting', 'wagons trunks etc'), ('games', 'cards darts etc'), ('gear repair', 'weapon sharpening etc');
+INSERT INTO supplyTypes(type_Name, type_dx, type_example)
+VALUES ('reusable service', 'should last awhile', 'mug'), ('nonresuable service', 'single use', 'napkin'),
+('reusable cleaning', 'should last awhile', 'mop'), ('nonresuable cleaning', 'gets used up', 'soap'),
+('general service', 'durable asset', 'chair'), ('consumables', 'food and beverages', 'beer'),
+('accommodations', 'for sleeping and entertainment', 'rooms, beds, games'),
+('gear supplies', 'for lending and mending', 'needles, thread, storage lockers'),
+('equipment', 'for maintenance and other use', 'tools and paint');
 
 
 INSERT INTO taverns(name, ownerID, locationID, numberOffloors)
