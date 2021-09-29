@@ -1,12 +1,12 @@
 CREATE TABLE availabilityStatuses (
-  av_StatusID INTEGER PRIMARY KEY,
+  av_StatusID INTEGER IDENTITY(1,1) PRIMARY KEY,
   statusName varchar(100),
   status_dx varchar(200)
 );
 
 
 CREATE TABLE classes (
-  classID INTEGER PRIMARY KEY,
+  classID INTEGER IDENTITY(1,1) PRIMARY KEY,
   class_name varchar(100),
   class_dx varchar(200),
   numberOfLevels INT
@@ -14,7 +14,7 @@ CREATE TABLE classes (
 
 
 CREATE TABLE guests (
-  guestID INTEGER PRIMARY KEY,
+  guestID INTEGER IDENTITY(1,1) PRIMARY KEY,
 first_name varchar(100),
   last_name varchar(100),
   notes varchar(200),
@@ -26,7 +26,7 @@ first_name varchar(100),
 
 
 CREATE TABLE guestLevels (
-  rowID INTEGER PRIMARY KEY,
+  rowID INTEGER IDENTITY(1,1) PRIMARY KEY,
   guestID INT,
   classID INT,
   current_level INT,
@@ -36,14 +36,14 @@ CREATE TABLE guestLevels (
 
 
 CREATE TABLE guestStatuses (
-  guest_statusID INTEGER PRIMARY KEY,
+  guest_statusID INTEGER IDENTITY(1,1) PRIMARY KEY,
 guestStatus_name varchar(100),
   guestStatus_dx varchar(200)
 );
 
 
 CREATE TABLE inventoryItems (
-  itemID INTEGER PRIMARY KEY,
+  itemID INTEGER IDENTITY(1,1) PRIMARY KEY,
   supplyTypeID INT,
   item_name varchar(100),
   item_dx varchar(200),
@@ -54,7 +54,7 @@ CREATE TABLE inventoryItems (
 
 
 CREATE TABLE inventoryStatuses (
-  i_statusID INTEGER PRIMARY KEY,
+  i_statusID INTEGER IDENTITY(1,1) PRIMARY KEY,
   itemID INT,
   tavernID INT,
   av_StatusID INT,
@@ -67,13 +67,13 @@ CREATE TABLE inventoryStatuses (
 
 
 CREATE TABLE locations (
-    locationID INTEGER PRIMARY KEY,
+    locationID INTEGER IDENTITY(1,1) PRIMARY KEY,
     address varchar(250)
 );
 
 
 CREATE TABLE orders (
-  orderID INTEGER PRIMARY KEY,
+  orderID INTEGER IDENTITY(1,1) PRIMARY KEY,
   tavernID INT,
   itemID INT,
   quantity INT,
@@ -85,14 +85,14 @@ CREATE TABLE orders (
 
 
 CREATE TABLE owners (
-    ownerID INTEGER PRIMARY KEY,
+    ownerID INTEGER IDENTITY(1,1) PRIMARY KEY,
   name Varchar(100),
     tavernID INT,
     FOREIGN KEY(tavernID) REFERENCES taverns(tavernID)
 );
 
 CREATE TABLE receivables (
-  receivableID INTEGER PRIMARY KEY,
+  receivableID INTEGER IDENTITY(1,1) PRIMARY KEY,
   orderID INT,
   date_received TEXT,
   FOREIGN KEY (orderID) REFERENCES orders(orderID)
@@ -100,13 +100,13 @@ CREATE TABLE receivables (
 
 
 CREATE TABLE roles (
-    roleID INTEGER PRIMARY KEY,
+    roleID INTEGER IDENTITY(1,1) PRIMARY KEY,
   name Varchar(100),
     role_description varchar(250)
 );
 
 CREATE TABLE rooms (
-  roomID INTEGER PRIMARY KEY,
+  roomID INTEGER IDENTITY(1,1) PRIMARY KEY,
   tavernID INT,
   roomName varchar(100),
   room_dx varchar(200),
@@ -118,7 +118,7 @@ CREATE TABLE rooms (
 );
 
 CREATE TABLE roomAvailabilities (
-  roomStatusID INTEGER PRIMARY KEY,
+  roomStatusID INTEGER IDENTITY(1,1) PRIMARY KEY,
   roomID INT,
   currentStatus INT,
   lastUpdated TEXT,
@@ -127,7 +127,7 @@ CREATE TABLE roomAvailabilities (
 );
 
 CREATE TABLE roomSales (
-  roomSaleID INTEGER PRIMARY KEY,
+  roomSaleID INTEGER IDENTITY(1,1) PRIMARY KEY,
   roomID INT,
   guestID INT,
   date_arrived TEXT,
@@ -142,7 +142,7 @@ CREATE TABLE roomSales (
 
 
 CREATE TABLE sales (
-  saleID INTEGER PRIMARY KEY,
+  saleID INTEGER IDENTITY(1,1) PRIMARY KEY,
   tavernID INT,
   serviceID INT,
   quantity_sold INT,
@@ -155,7 +155,7 @@ CREATE TABLE sales (
 );
 
 CREATE TABLE services (
-  serviceID INTEGER PRIMARY KEY,
+  serviceID INTEGER IDENTITY(1,1) PRIMARY KEY,
   supplyTypeID INT,
   service_name varchar(100),
   service_dx varchar(200),
@@ -166,7 +166,7 @@ CREATE TABLE services (
 
 
 CREATE TABLE serviceStatuses (
-  s_statusID INTEGER PRIMARY KEY,
+  s_statusID INTEGER IDENTITY(1,1) PRIMARY KEY,
   serviceID INT,
   tavernID INT,
   av_StatusID INT,
@@ -179,7 +179,7 @@ CREATE TABLE serviceStatuses (
 
 
 CREATE TABLE supplyTypes (
-  supplyTypeID INTEGER PRIMARY KEY,
+  supplyTypeID INTEGER IDENTITY(1,1) PRIMARY KEY,
   type_Name varchar(100),
   type_dx varchar(200),
   type_example varchar(150)
@@ -188,7 +188,7 @@ CREATE TABLE supplyTypes (
 
 
 CREATE TABLE taverns (
-  tavernID INTEGER PRIMARY KEY,
+  tavernID INTEGER IDENTITY(1,1) PRIMARY KEY,
     name varchar(100),
     ownerID INT,
     locationID INT,
@@ -198,7 +198,7 @@ CREATE TABLE taverns (
 );
 
 CREATE TABLE users (
-  userID INTEGER PRIMARY KEY,
+  userID INTEGER IDENTITY(1,1) PRIMARY KEY,
     name varchar(100),
     tavernID INT,
     roleID INT,

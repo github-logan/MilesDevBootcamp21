@@ -29,7 +29,8 @@ ORDER by last_name ASC;
 
 -- #6 Write a query that returns the top 10 highest price sales
 
-SELECT TOP 10 price FROM sales;
+SELECT TOP 10 price FROM sales
+order by price ASC;
 
 
 -- #7 Write a query to return all the values stored in all Lookup Tables - Lookup tables are the tables we reference typically with just an ID and a name. This should be a dynamic combining of all of the tables
